@@ -10,7 +10,7 @@ import seaborn as sns
 
 
 # import
-uf = pd.read_excel('cartierUF1.xlsx')
+uf = pd.read_excel('plantUF1.xlsx')
 
 print(uf.head(5)) # preview
 uf = uf.drop(['fullDate'], axis = 1) # remove date (not of use for PCA)
