@@ -30,6 +30,28 @@ pca.fit(uf)
 
 x = pca.fit_transform(uf)
 
+# scree plot for PCA | credit Josh Hemann
+
+num_vars = n
+num_obs = 9
+A = np.random.randn(num_obs, num_vars)
+A = np.asmatrix(A.T) * np.asmatrix(A)
+U, S, V = np.linalg.svd(x) 
+eigvals = S**2 / np.cumsum(S)[-1]
+
+fig = plt.figure(figsize=(8,5))
+sing_vals = np.arange(num_vars) + 1
+plt.plot(sing_vals, eigvals, 'ro-', linewidth=2)
+plt.title('Scree Plot')
+plt.xlabel('Principal Component')
+plt.ylabel('Eigenvalue')
+leg = plt.legend(['Eigenvalues from SVD'], loc='best', borderpad=0.3, 
+                 shadow=False, prop=matplotlib.font_manager.FontProperties(size='small'),
+                 markerscale=0.4)
+leg.get_frame().set_alpha(0.4)
+leg.draggable(state=True)
+plt.show()
+
 # export to desktop - uncomment following lines, replace path with your storage path
 # correlation_matrix.to_excel(path)
 
