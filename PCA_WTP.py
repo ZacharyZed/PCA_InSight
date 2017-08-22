@@ -13,14 +13,14 @@ import seaborn as sns
 uf = pd.read_excel('plantUF1.xlsx')
 
 print(uf.head(5)) # preview
-uf = uf.drop(['fullDate'], axis = 1) # remove date (not of use for PCA)
-ss = StandardScaler() # prep StandardScaler
-col = (uf.columns.values) # column headers
+uf = uf.drop(['fullDate'], axis = 1)
+ss = StandardScaler()
+col = (uf.columns.values)
 
-uf1 = ss.fit_transform(uf) # scale 
-uf = pd.DataFrame(uf1, columns = col) # turn to DF
+uf1 = ss.fit_transform(uf)
+uf = pd.DataFrame(uf1, columns = col) 
 
-correlation_matrix = uf.corr() # correlation matrix
+correlation_matrix = uf.corr() 
 corrm = correlation_matrix.describe()
 print(corrm)
 
@@ -79,10 +79,10 @@ for i in range(len(xs)):
 # triangles represent row values in sheet
     plt.plot(xs[i], ys[i], '^')
 
-rcParams['figure.figsize'] = 45, 70 # enlarge plt
+rcParams['figure.figsize'] = 45, 70 
 plt.show()
 
-rcParams['figure.figsize'] = 15, 5 #downsize plt
+rcParams['figure.figsize'] = 15, 5 
 
 clust1 = uf['PressureDecayRate'] # sample var from cluster obs1
 clust2 = uf['TCFluxDuringBP'] # sample var from cluster obs2
@@ -96,7 +96,7 @@ plt.plot(clust3, 'r-')
 plt.show()
 
 ##  Seasborn corr heatmap matrix
-rcParams['figure.figsize'] = 15, 15 # enlarge plt
+rcParams['figure.figsize'] = 15, 15
 sns.heatmap(correlation_matrix, vmax =1., square = False).xaxis.tick_top()
 
 
