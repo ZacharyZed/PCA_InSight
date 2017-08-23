@@ -1,28 +1,36 @@
 # EDA
 # PCA analysis for UF Membrane
+# -*- coding: utf-8 -*-
+"""
+Created on Tue Aug 22 08:34:29 2017
+
+@author: 212617685
+"""
+
 import pandas as pd
-import matplotlib.pyplot as plt
+import numpy as np
+import matplotlib
+from matplotlib import pyplot as plt
 from sklearn.preprocessing import StandardScaler
 from sklearn.decomposition import PCA
 from pylab import rcParams
 import seaborn as sns
 
+uf = pd.read_excel('c:/users/212617685/desktop/cartier.xlsx', sheetname = 'UF2')
 
+uf = uf.fillna(method='ffill')
+uf = uf.fillna(uf.mean())
 
-# import
-uf = pd.read_excel('plantUF1.xlsx')
+uf = uf.drop(['date'], axis = 1)
+ss = StandardScaler() 
+col = (uf.columns.values) 
 
-print(uf.head(5)) # preview
-uf = uf.drop(['fullDate'], axis = 1)
-ss = StandardScaler()
-col = (uf.columns.values)
+uf1_v2 = ss.fit_transform(uf) # scale 
+uf = pd.DataFrame(uf1_v2, columns = col)
 
-uf1 = ss.fit_transform(uf)
-uf = pd.DataFrame(uf1, columns = col) 
-
-correlation_matrix = uf.corr() 
+correlation_matrix = uf.corr() # correlation matrix
 corrm = correlation_matrix.describe()
-print(corrm)
+#correlation_matrix.to_excel('c:/users/212617685/desktop/corruf2cartier.xlsx')
 
 n = len(col) # component length
 pca = PCA(n_components = n) 
@@ -30,7 +38,7 @@ pca.fit(uf)
 
 x = pca.fit_transform(uf)
 
-# scree plot for PCA | credit Josh Hemann
+#scree
 
 num_vars = n
 num_obs = 9
@@ -52,9 +60,6 @@ leg.get_frame().set_alpha(0.4)
 leg.draggable(state=True)
 plt.show()
 
-# export to desktop - uncomment following lines, replace path with your storage path
-# correlation_matrix.to_excel(path)
-
 ##  Setting up visualization for PCA
 
 xvect = pca.components_[0] #PC1
@@ -63,12 +68,8 @@ yvect = pca.components_[1] #PC2
 xs = pca.transform(uf)[:,0]
 ys = pca.transform(uf)[:,1]
 
-
-##  Visualization
-
 # plot PCA
 for i in range(len(xvect)):
-# arrows represent variables 
     plt.arrow(0, 0, xvect[i]*max(xs), yvect[i]*max(ys),
               color='r', width=0.0005, head_width=0.0025)
     plt.text(xvect[i]*max(xs)*2.5, yvect[i]*max(ys)*2.5,
@@ -76,28 +77,21 @@ for i in range(len(xvect)):
     plt.text(xs[i]*1.2, ys[i]*1.2, list(uf.index)[i], color='k')
 
 for i in range(len(xs)):
-# triangles represent row values in sheet
     plt.plot(xs[i], ys[i], '^')
-
-rcParams['figure.figsize'] = 45, 70 
-plt.show()
-
-rcParams['figure.figsize'] = 15, 5 
-
-clust1 = uf['PressureDecayRate'] # sample var from cluster obs1
-clust2 = uf['TCFluxDuringBP'] # sample var from cluster obs2
-clust3 = uf['PermeabilityAfterBP'] # sample var from cluster obs3
+    
+# plot point from cluster    
+clust1 = uf['Avg(VAL) for UF 2.PressureDecayRate'] # sample var from cluster obs1
+clust2 = uf['Avg(VAL) for UF 2.TCFluxBeforeBP'] # sample var from cluster obs2
+clust3 = uf['Avg(VAL) for UF 2.PermeateTurbidityAfterBP'] # sample var from cluster obs3
 
 # plot cluster var rep
 plt.plot(clust1, 'g-')
 plt.plot(clust2, 'b-')
 plt.plot(clust3, 'r-')
 
-plt.show()
+plt.show()    
 
-##  Seasborn corr heatmap matrix
-rcParams['figure.figsize'] = 15, 15
-sns.heatmap(correlation_matrix, vmax =1., square = False).xaxis.tick_top()
+#plt.show()
 
-
-
+#rcParams['figure.figsize'] = 15, 15
+#sns.heatmap(correlation_matrix, vmax =1., square = False).xaxis.tick_top()
