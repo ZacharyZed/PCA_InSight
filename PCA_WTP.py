@@ -16,7 +16,7 @@ from sklearn.decomposition import PCA
 from pylab import rcParams
 import seaborn as sns
 
-uf = pd.read_excel('artier.xlsx', sheetname = 'UF2')
+uf = pd.read_excel('sheet.xlsx', sheetname = 'UF2')
 
 uf = uf.fillna(method='ffill')
 uf = uf.fillna(uf.mean())
