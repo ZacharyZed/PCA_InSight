@@ -4,7 +4,7 @@
 """
 Created on Tue Aug 22 08:34:29 2017
 
-@author: 212617685
+@author: xxxxxx685
 """
 
 import pandas as pd
@@ -16,7 +16,7 @@ from sklearn.decomposition import PCA
 from pylab import rcParams
 import seaborn as sns
 
-uf = pd.read_excel('c:/users/212617685/desktop/cartier.xlsx', sheetname = 'UF2')
+uf = pd.read_excel('artier.xlsx', sheetname = 'UF2')
 
 uf = uf.fillna(method='ffill')
 uf = uf.fillna(uf.mean())
@@ -30,7 +30,7 @@ uf = pd.DataFrame(uf1_v2, columns = col)
 
 correlation_matrix = uf.corr() # correlation matrix
 corrm = correlation_matrix.describe()
-#correlation_matrix.to_excel('c:/users/212617685/desktop/corruf2cartier.xlsx')
+#correlation_matrix.to_excel('sheet.xlsx')
 
 n = len(col) # component length
 pca = PCA(n_components = n) 
@@ -80,9 +80,9 @@ for i in range(len(xs)):
     plt.plot(xs[i], ys[i], '^')
     
 # plot point from cluster    
-clust1 = uf['Avg(VAL) for UF 2.PressureDecayRate'] # sample var from cluster obs1
-clust2 = uf['Avg(VAL) for UF 2.TCFluxBeforeBP'] # sample var from cluster obs2
-clust3 = uf['Avg(VAL) for UF 2.PermeateTurbidityAfterBP'] # sample var from cluster obs3
+clust1 = uf['Avg(VAL) for UF 2.PDR'] # sample var from cluster obs1
+clust2 = uf['Avg(VAL) for UF 2.Flux'] # sample var from cluster obs2
+clust3 = uf['Avg(VAL) for UF 2.PostBP'] # sample var from cluster obs3
 
 # plot cluster var rep
 plt.plot(clust1, 'g-')
